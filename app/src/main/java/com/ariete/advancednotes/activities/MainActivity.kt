@@ -1,7 +1,6 @@
 package com.ariete.advancednotes.activities
 
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -10,12 +9,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.ariete.advancednotes.R
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ariete.advancednotes.database.NoteDatabase
 import com.ariete.advancednotes.databinding.ActivityMainBinding
 import com.ariete.advancednotes.repository.NoteRepository
 import com.ariete.advancednotes.viewmodel.NoteViewModel
 import com.ariete.advancednotes.viewmodel.NoteViewModelProviderFactory
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
@@ -41,16 +40,17 @@ class MainActivity : AppCompatActivity() {
         currentFragment = binding.fragment
         bottomNavigation = binding.bottomNavigation
 
-        setUpViewModel()
+        setupViewModel()
     }
 
     override fun onStart() {
         super.onStart()
 
         navController = currentFragment.findNavController()
-        setting_bottom_naviagtion()
+        setupBottomNavigation()
     }
 
+    @Suppress("DEPRECATION")
     private fun applySavedLocale() {
         val prefs = getSharedPreferences("Settings", MODE_PRIVATE)
         val lang = prefs.getString("My_Lang", "ru") ?: "ru"
@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         resources.updateConfiguration(configuration, resources.displayMetrics)
     }
 
-    private fun `setting_bottom_naviagtion`() {
+    private fun setupBottomNavigation() {
         bottomNavigation.itemIconTintList = null
 
         bottomNavigation.setOnItemSelectedListener {
@@ -76,30 +76,24 @@ class MainActivity : AppCompatActivity() {
             val noteFragmentContext = findViewById<View>(R.id.fragment_note)?.context
             val settingsFragmentContext = findViewById<View>(R.id.fragment_settings)?.context
 
-
             when(it.itemId) {
-                R.id.notes -> switching_to_homeFragment(
+                R.id.notes -> switchToHomeFragment(
                     settingsFragmentContext,
                     navController
                 )
 
-                R.id.settings -> switching_to_settingsFragment(
+                R.id.settings -> switchToSettingsFragment(
                     homeFragmentContext,
                     noteFragmentContext,
                     navController
                 )
             }
 
-            true
-            /**
-                * Return true to indicate the item (operation) is selected (applied).
-                * -------------------------------------------------------------------
-                * Возврщаем true, чтобы указать что элемент (операция) выбран (применена).
-            */
+            true // Return true to indicate the item (operation) is selected (applied).
         }
     }
 
-    private fun `switching_to_homeFragment`(
+    private fun switchToHomeFragment(
         settingsFragmentContext: Context?,
         navController: NavController
     ) {
@@ -112,7 +106,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun `switching_to_settingsFragment`(
+    private fun switchToSettingsFragment(
         homeFragmentContext: Context?,
         noteFragmentContext: Context?,
         navController: NavController
@@ -134,7 +128,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setUpViewModel() {
+    private fun setupViewModel() {
         val noteRepository = NoteRepository(
             NoteDatabase.invoke(this)
         )

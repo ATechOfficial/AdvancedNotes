@@ -1,5 +1,6 @@
 package com.ariete.advancednotes.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,6 +9,7 @@ import com.ariete.advancednotes.databinding.ActivitySplashScreenBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashScreenBinding
@@ -16,13 +18,13 @@ class SplashScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
-        /**
-            * layoutInflater instantiates a layout XML file.
-            * ---------------------------------------------
-            * layoutInflater создает XML файл макета.
-        */
-
         setContentView(binding.root)
+
+        /**
+         * `lifecycleScope.launch` function launches a coroutine
+         * within an Activity lifecycle scope for 700 milliseconds
+         * before a transition between SplashScreenActivity and MainActivity
+         */
 
         lifecycleScope.launch {
             delay(700)
@@ -34,29 +36,5 @@ class SplashScreenActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-
-        /**
-            * This code block uses the `lifecycleScope.launch` function
-            * to launch a coroutine
-            * within an Activity lifecycle scope.
-            *
-            * Inside the `launch` block,
-            * the coroutine suspends its execution for 700 milliseconds using
-            * the `delay` function.
-            *
-            * After a delay
-            * there is a transition between SplashScreenActivity and MainActivity.
-            * --------------------------------------------------------------------
-            * Этот блок кода использует функцию lifecycleScope.launch()
-            * для запуска корутины
-            * в рамках жизненного цикла активности.
-            *
-            * Внутри блока launch корутина приостанавливает
-            * свое выполнение на 700 миллисекунд,
-            * используя функцию delay().
-            *
-            * После задержки,
-            * происходит переход из SplashScreenActivity в MainActivity.
-        */
     }
 }
