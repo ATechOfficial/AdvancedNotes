@@ -41,4 +41,21 @@
     <!-- About Us -->
     <string name="about_us">About us</string>
     <string name="about_us_text">Ariete is a team of young developers, working hard in order to extend their programming skills and abilities and bring their advanced projects to the community</string>
+
+    <!-- Language Switch -->
+    <string name="language_switch" translatable="false">Switch Language</string>
+
+    <string name="locale_english" translatable="false">English</string>
+    <string name="locale_arabian" translatable="false">Arabian</string>
+    <string name="locale_spanish" translatable="false">Spanish</string>
+    <string name="locale_french" translatable="false">French</string>
+    <string name="locale_russian" translatable="false">Russian</string>
+    <string name="locale_chinese" translatable="false">Chinese</string>
+
+    <string name="locale_code_english" translatable="false">en</string>
+    <string name="locale_code_arabian" translatable="false">ar</string>
+    <string name="locale_code_spanish" translatable="false">sp</string>
+    <string name="locale_code_french" translatable="false">fr</string>
+    <string name="locale_code_russian" translatable="false">ru</string>
+    <string name="locale_code_chinese" translatable="false">ch</string>
 </resources>
