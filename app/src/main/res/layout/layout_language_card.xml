@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
+        android:layout_marginHorizontal="25dp"
         android:layout_marginVertical="6dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="6dp"
@@ -44,18 +45,39 @@
                     android:id="@+id/languageCardText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
+                    android:layout_marginStart="8dp"
                     android:fontFamily="@font/ubuntu_regular"
                     android:includeFontPadding="false"
-                    android:text="@string/locale_english"
+                    android:text="@string/locale_english_name"
                     android:textColor="?attr/colorOnSecondary"
-                    android:textSize="16sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
+                    android:gravity="start"
+                    android:textDirection="ltr"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/languageSwitchButton"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <TextView
+                    android:id="@+id/languageCardTextHint"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/ubuntu_regular"
+                    android:includeFontPadding="false"
+                    android:text="@string/locale_english"
+                    android:textColor="@color/grey_A"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:gravity="start"
+                    android:textDirection="ltr"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/languageSwitchButton"
+                    app:layout_constraintTop_toTopOf="@+id/languageCardText"
+                    tools:ignore="SmallSp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

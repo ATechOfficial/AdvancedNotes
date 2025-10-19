@@ -63,17 +63,6 @@ class SettingsFragment :
         return mView
     }
 
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//        mView = view
-//
-//        assignBottomNavigationItem()
-//
-//        setClickListeners()
-//        setupDialogAboutUs()
-//        showLanguageSwitchDialog()
-//    }
 
     private fun setupNavigationAndViews() {
         bottomNavigation = (activity as MainActivity).bottomNavigation
@@ -102,9 +91,9 @@ class SettingsFragment :
             .setView(dialogView)
             .create()
 
-//        dialogAboutUs.window!!.setBackgroundDrawableResource(
-//            R.drawable.background_dialog_about_us
-//        )
+        dialogAboutUs.window!!.setBackgroundDrawableResource(
+            R.drawable.background_dialog_about_us
+        )
 
         view.ok.setOnClickListener {
             dialogAboutUs.dismiss()
@@ -128,21 +117,23 @@ class SettingsFragment :
         val sharedPrefs = requireActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE)
         val currentLangCode = sharedPrefs.getString("My_Lang", "ru") ?: "ru"
 
-        val languageMap = mapOf(
-            R.string.locale_english to R.string.locale_code_english,
-            R.string.locale_russian to R.string.locale_code_russian,
-            R.string.locale_arabian to R.string.locale_code_arabian,
-            R.string.locale_spanish to R.string.locale_code_spanish,
-            R.string.locale_french to R.string.locale_code_french,
-            R.string.locale_chinese to R.string.locale_code_chinese,
+        val languageList = listOf(
+            Triple(R.string.locale_english_name, R.string.locale_english, R.string.locale_code_english),
+            Triple(R.string.locale_russian_name, R.string.locale_russian, R.string.locale_code_russian),
+            Triple(R.string.locale_arabian_name, R.string.locale_arabian, R.string.locale_code_arabian),
+            Triple(R.string.locale_spanish_name, R.string.locale_spanish, R.string.locale_code_spanish),
+            Triple(R.string.locale_french_name, R.string.locale_french, R.string.locale_code_french),
+            Triple(R.string.locale_chinese_name, R.string.locale_chinese, R.string.locale_code_chinese)
         )
 
-        return languageMap.map { (titleId, codeId) ->
+        return languageList.map { (titleId, hintId, codeId) ->
             val title = getString(titleId)
+            val hint = getString(hintId)
             val code = resources.getString(codeId)
 
             LanguageCard(
                 title = title,
+                hint = hint,
                 code = code,
                 isChecked = code == currentLangCode
             )
@@ -163,9 +154,9 @@ class SettingsFragment :
             .setView(dialogView)
             .create()
 
-//        languageDialog.window?.setBackgroundDrawableResource(
-//            R.drawable.background_dialog_about_us
-//        )
+        languageDialog.window?.setBackgroundDrawableResource(
+            R.drawable.background_dialog_language_switch
+        )
 
         val recyclerView: RecyclerView = languageDialogBinding.rvLanguages
         recyclerView.layoutManager = LinearLayoutManager(requireContext())

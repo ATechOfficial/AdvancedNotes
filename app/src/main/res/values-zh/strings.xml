@@ -31,4 +31,12 @@
 
     <string name="about_us">关于我们</string>
     <string name="about_us_text">Ariete 是一个由年轻开发人员组成的团队，他们努力工作以扩展他们的编程技能和能力，并将他们的高级项目带到社区</string>
+    <string name="locale_code_spanish">西班牙语</string>
+    <string name="locale_english">英语</string>
+    <string name="locale_arabian">阿拉伯语</string>
+    <string name="locale_spanish">西班牙语</string>
+    <string name="locale_french">法语</string>
+    <string name="locale_russian">俄语</string>
+    <string name="locale_chinese">中文</string>
+    <string name="language_switch">切换语言</string>
 </resources>

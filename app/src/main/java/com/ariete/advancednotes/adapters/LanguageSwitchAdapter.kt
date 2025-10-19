@@ -11,6 +11,7 @@ import com.ariete.advancednotes.R
 
 data class LanguageCard(
     val title: String,
+    val hint: String,
     val code: String,
     var isChecked: Boolean
 )
@@ -27,6 +28,7 @@ class LanguageSwitchAdapter(
     inner class LanguageSwitchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val lang_name: TextView = itemView.findViewById(R.id.languageCardText)
+        val hint_text: TextView = itemView.findViewById(R.id.languageCardTextHint)
         val isChecked: RadioButton = itemView.findViewById(R.id.languageSwitchButton)
     }
 
@@ -52,6 +54,7 @@ class LanguageSwitchAdapter(
         val currentLanguageCard = language_cards[position]
 
         holder.lang_name.text = currentLanguageCard.title
+        holder.hint_text.text = currentLanguageCard.hint
         holder.isChecked.isChecked = position == selectedPosition
 
         holder.itemView.setOnClickListener {

@@ -31,4 +31,11 @@
 
     <string name="about_us">О нас</string>
     <string name="about_us_text">Ariete - это команда юных разработчиков, которые усердно работают для прокачки своих навыков в программировании и выпуска своих передовых проектов</string>
+    <string name="locale_english">Английский</string>
+    <string name="locale_arabian">Арабский</string>
+    <string name="locale_spanish">Испанский</string>
+    <string name="locale_french">Французский</string>
+    <string name="locale_russian">Русский</string>
+    <string name="locale_chinese">Китайский</string>
+    <string name="language_switch">Сменить язык</string>
 </resources>

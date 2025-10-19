@@ -39,8 +39,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:orientation="horizontal">
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                tools:ignore="UselessParent">
 
                 <TextView
                     android:id="@+id/text_about_us"
@@ -51,7 +52,7 @@
                     android:includeFontPadding="false"
                     android:text="@string/about_us"
                     android:textColor="?attr/colorOnSecondary"
-                    android:textSize="16sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </RelativeLayout>
@@ -73,20 +74,41 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:orientation="horizontal">
+                android:layout_height="60dp"
+                android:orientation="vertical"
+                tools:ignore="UselessParent">
 
                 <TextView
                     android:id="@+id/text_language_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/ubuntu_regular"
+                    android:gravity="start"
                     android:includeFontPadding="false"
                     android:text="@string/language_switch"
                     android:textColor="?attr/colorOnSecondary"
-                    android:textSize="16sp"
+                    android:textDirection="ltr"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/text_language_switch_hint2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/ubuntu_regular"
+                    android:gravity="start"
+                    android:includeFontPadding="false"
+                    android:text="@string/language_switch_name"
+                    android:textColor="@color/grey_A"
+                    android:textDirection="ltr"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    tools:ignore="SmallSp" />
+
             </LinearLayout>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

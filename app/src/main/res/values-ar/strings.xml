@@ -31,4 +31,11 @@
 
     <string name="about_us">معلومات عنا</string>
     <string name="about_us_text">Ariete هو فريق من المطورين الشباب، يعملون بجد من أجل توسيع مهاراتهم وقدراتهم في البرمجة وتقديم مشاريعهم المتقدمة إلى المجتمع</string>
+    <string name="locale_arabian">العربية</string>
+    <string name="locale_english">الإنجليزية</string>
+    <string name="locale_spanish">الإسبانية</string>
+    <string name="locale_french">الفرنسية</string>
+    <string name="locale_russian">الروسية</string>
+    <string name="locale_chinese">الصينية</string>
+    <string name="language_switch">تبديل اللغة</string>
 </resources>
