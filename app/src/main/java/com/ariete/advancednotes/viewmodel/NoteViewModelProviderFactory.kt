@@ -11,6 +11,10 @@ class NoteViewModelProviderFactory(
 ) : ViewModelProvider.AndroidViewModelFactory(app) {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        check(modelClass.isAssignableFrom(NoteViewModel::class.java)) {
+            "Unknown ViewModel class: ${modelClass.name}"
+        }
+        @Suppress("UNCHECKED_CAST")
         return NoteViewModel(app, noteRepository) as T
         /**
             * as - это оператор "небезопасного" приведения

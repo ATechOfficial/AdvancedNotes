@@ -3,25 +3,16 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
-    /**
-        * The 'kotlin-kapt' plugin is used
-        * to enable and facilitate the usage of Kotlin-specific
-        * annotation processors during the build process.
-        * -------------------------------------------------------
-        * Плагин «kotlin-kapt» используется для включения
-        * и облегчения использования процессоров аннотаций,
-        * специфичных для Kotlin, в процессе сборки.
-    */
 }
 
 android {
     namespace 'com.ariete.advancednotes'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.ariete.advancednotes"
         minSdk 28
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0.0"
 
@@ -29,13 +20,6 @@ android {
     }
 
     buildTypes {
-        /**
-            * The "release" build type is typically used for generating
-            * a production-ready version of an app.
-            * ---------------------------------------------------------
-            * Тип сборки "release" обычно используется для генерации
-            * "готовой к производству" версии приложения.
-        */
         release {
             minifyEnabled false
             /**
@@ -63,16 +47,6 @@ android {
                 *
                 * The 'proguard-rules.pro' file is a custom ProGuard configuration file
                 * where you can add your own rules.
-                * ---------------------------------------------------------------------------------
-                * "proguardFiles" указывает файлы конфигурации
-                * "проф. охраны", которые будут использоваться для типа сборки "release"
-                *
-                * Функция getDefaultProguardFile() получает стандартную "конфигурацию охраны",
-                * предоставляемую Android Gradle плагином,
-                * который включает в себя оптимизации.
-                *
-                * Файл "proguard-rules.pro" - это пользовательский файл "конфигурации охраны"
-                * где вы можете добавить свои собственные правила
             */
         }
     }
@@ -92,8 +66,12 @@ android {
         * Эта конфигурация определяет версию Java, использующуюся во время компиляции.
     */
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_19
-        targetCompatibility JavaVersion.VERSION_19
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+	
+	kotlinOptions {
+        jvmTarget = '17'
     }
 
     buildFeatures {
@@ -103,9 +81,7 @@ android {
 
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
-
-    implementation 'com.google.android.material:material:1.9.0'
-
+    implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     testImplementation 'junit:junit:4.13.2'
@@ -115,30 +91,26 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
     // todo
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.7.0"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.7.0"
 
     // todo
-    implementation "androidx.room:room-runtime:2.5.2"
-    kapt "androidx.room:room-compiler:2.5.2"
+    implementation "androidx.room:room-runtime:2.6.1"
+    kapt "androidx.room:room-compiler:2.6.1"
+    implementation "androidx.room:room-ktx:2.6.1"
 
-    // todo
-    // Kotlin Extensions and Coroutines support for Room
-    implementation "androidx.room:room-ktx:2.5.2"
+    debugImplementation "androidx.fragment:fragment-testing:1.6.2"
+    implementation "androidx.fragment:fragment-ktx:1.6.2"
+    implementation 'androidx.activity:activity-ktx:1.8.2'
 
-    debugImplementation "androidx.fragment:fragment-testing:1.6.1"
-    implementation "androidx.fragment:fragment-ktx:1.6.1"
-
-    implementation 'androidx.activity:activity-ktx:1.7.2'
-
-    implementation "androidx.navigation:navigation-fragment-ktx:2.5.1"
-    implementation "androidx.navigation:navigation-ui-ktx:2.5.1"
-    implementation "androidx.navigation:navigation-dynamic-features-fragment:2.5.1"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.7.6"
+    implementation "androidx.navigation:navigation-ui-ktx:2.7.6"
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:2.7.6"
 
     implementation "com.github.skydoves:colorpickerview:2.2.4"
-
-    implementation 'com.github.bumptech.glide:glide:4.15.1'
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    implementation 'com.google.code.gson:gson:2.10.1'
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 }

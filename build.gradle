@@ -1,37 +1,16 @@
 buildscript {
     repositories {
         google()
-        /**
-            * Google and Maven Central repositories are used for dependency management.
-            * -------------------------------------------------------------------------
-            * Репозитории Google и Maven используются для управления зависимостями.
-        */
         mavenCentral()
     }
     dependencies {
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22'
+        classpath 'com.android.tools.build:gradle:8.5.2'
     }
 }
 
 plugins {
-    id 'com.android.application' version '8.0.1' apply false
-    /**
-        * This plugin is used for building an Android application.
-        * --------------------------------------------------------
-        * Этот плагин используется для создания приложения для Android.
-    */
-
-    id 'com.android.library' version '8.0.1' apply false
-    /**
-        * This plugin is used for building an Android library.
-        * ----------------------------------------------------
-        * Этот плагин используется для создания библиотеки Android.
-    */
-
-    id 'org.jetbrains.kotlin.android' version '1.7.20' apply false
-    /**
-        * This plugin is used for integrating Kotlin with the Android build system.
-        * -------------------------------------------------------------------------
-        * Этот плагин используется для интеграции Kotlin с системой сборки Android.
-    */
+    id 'com.android.application' version '8.5.2' apply false
+    id 'com.android.library' version '8.5.2' apply false
+    id 'org.jetbrains.kotlin.android' version '1.9.22' apply false
 }
