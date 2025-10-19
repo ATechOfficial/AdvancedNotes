@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:padding="16dp">
 
@@ -17,7 +17,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_languages"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_below="@id/dialog_title"
         android:layout_above="@+id/button_container"
         android:paddingBottom="8dp"
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cancel"
-            android:textColor="?attr/colorPrimary" />
+            android:textColor="#404040" />
 
         <Button
             android:id="@+id/btn_confirm"
@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/confirm"
-            android:textColor="?attr/colorPrimary" />
+            android:textColor="@color/blue" />
 
     </LinearLayout>
 

@@ -54,8 +54,8 @@
 
     <string name="locale_code_english" translatable="false">en</string>
     <string name="locale_code_arabian" translatable="false">ar</string>
-    <string name="locale_code_spanish" translatable="false">sp</string>
+    <string name="locale_code_spanish" translatable="false">es</string>
     <string name="locale_code_french" translatable="false">fr</string>
     <string name="locale_code_russian" translatable="false">ru</string>
-    <string name="locale_code_chinese" translatable="false">ch</string>
+    <string name="locale_code_chinese" translatable="false">zh</string>
 </resources>

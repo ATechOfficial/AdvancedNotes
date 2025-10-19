@@ -1,4 +1,4 @@
-package com.ariete.advancednotes.adapter
+package com.ariete.advancednotes.adapters
 
 import android.content.Context
 import android.os.Bundle

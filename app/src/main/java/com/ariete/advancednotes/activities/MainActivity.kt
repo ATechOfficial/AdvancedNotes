@@ -1,6 +1,7 @@
 package com.ariete.advancednotes.activities
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,7 @@ import com.ariete.advancednotes.databinding.ActivityMainBinding
 import com.ariete.advancednotes.repository.NoteRepository
 import com.ariete.advancednotes.viewmodel.NoteViewModel
 import com.ariete.advancednotes.viewmodel.NoteViewModelProviderFactory
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,6 +31,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        applySavedLocale()
+
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -45,6 +49,22 @@ class MainActivity : AppCompatActivity() {
 
         navController = currentFragment.findNavController()
         setting_bottom_naviagtion()
+    }
+
+    private fun applySavedLocale() {
+        val prefs = getSharedPreferences("Settings", MODE_PRIVATE)
+        val lang = prefs.getString("My_Lang", "ru") ?: "ru"
+
+        val locale = Locale(lang)
+        Locale.setDefault(locale)
+
+        val resources = resources
+        val configuration = resources.configuration
+
+        configuration.setLocale(locale)
+        createConfigurationContext(configuration)
+
+        resources.updateConfiguration(configuration, resources.displayMetrics)
     }
 
     private fun `setting_bottom_naviagtion`() {

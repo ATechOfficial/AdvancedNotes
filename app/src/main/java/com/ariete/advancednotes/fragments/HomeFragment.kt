@@ -14,7 +14,7 @@ import com.ariete.advancednotes.R
 import com.ariete.advancednotes.databinding.FragmentHomeBinding
 import com.ariete.advancednotes.activities.MainActivity
 import com.ariete.advancednotes.model.Note
-import com.ariete.advancednotes.adapter.NoteAdapter
+import com.ariete.advancednotes.adapters.NoteAdapter
 import com.ariete.advancednotes.viewmodel.NoteViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.delay
