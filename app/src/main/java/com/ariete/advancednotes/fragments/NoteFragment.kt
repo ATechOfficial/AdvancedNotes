@@ -214,8 +214,7 @@ class NoteFragment :
         noteViewModel.status = 1
         initial_settings()
 
-        noteViewModel.dataCurrentNote.value = requireArguments()
-            .getParcelable("note", Note::class.java)
+        noteViewModel.dataCurrentNote.value = requireArguments().get("note") as Note
 
         setting_up_noteData()
     }
