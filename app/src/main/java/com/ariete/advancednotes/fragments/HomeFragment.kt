@@ -48,8 +48,8 @@ class HomeFragment :
         )
 
         animation()
-        attach_an_action_to_back_button()
-        setting_up_searchItem()
+        setupBackButtonAction()
+        setupSearchView()
 
         return binding.root
     }
@@ -63,10 +63,10 @@ class HomeFragment :
         noteViewModel = (activity as MainActivity).noteViewModel
         mView = view
 
-        assign_bottomNavigation_item()
+        assignBottomNavigationItem()
 
         setupRecyclerView()
-        setting_up_click_addNote()
+        setupAddNoteClickListener()
     }
 
     override fun onDestroy() {
@@ -87,73 +87,36 @@ class HomeFragment :
         }
     }
 
-    private fun `attach_an_action_to_back_button`() {
+    private fun setupBackButtonAction() {
+
+        // The OnBackPressedCallback class handles the back button press event.
         val callback = object : OnBackPressedCallback(true) {
-            /**
-                * The OnBackPressedCallback class is used to handle the back button
-                * press event.
-                * -----------------------------------------------------------------
-                * Класс OnBackPressedCallback используется для обработки
-                * нажатия на кнопку back.
-            */
-            override fun handleOnBackPressed() {
-                /**
-                    * The function handleOnBackPressed() is used
-                    * to override the default behavior
-                    * when the user presses the back button.
-                    * --------------------------------------------------------
-                    * Функция handleOnBackPressed() используется для переопределения
-                    * изначального поведения,
-                    * когда пользовватель нажимает на кнопку
-                    * "back".
-                */
-                requireActivity().finish()
-                /**
-                    * The requireActivity() function is used to retrieve the activity
-                    * associated with a fragment.
-                    * ---------------------------------------------------------------
-                    * Функция requireActivity() используется для получения активности,
-                    * связанной с фрагментом.
-                */
-            }
+
+            // The function redefines back button standard press behaviour
+            override fun handleOnBackPressed() { requireActivity().finish() }
         }
+
         requireActivity()
             .onBackPressedDispatcher
             .addCallback(viewLifecycleOwner, callback)
+
+        // The callback should be enabled and active
         callback.isEnabled = true
-        /**
-            * We set this property to true for
-            * indicating that the callback should be enabled and active.
-            * ----------------------------------------------------------
-            * Мы устанавливаем для этого свойства значение true для
-            * указания на то, что обратный вызов должен быть включен и активен.
-        */
     }
 
-    private fun `setting_up_searchItem`() {
+    // TODO: Delete redundant submit button or search after a query submission only
+    private fun setupSearchView() {
         val searchItem = binding.inputSearch
 
+        // use true to display the query submit button
         searchItem.isSubmitButtonEnabled = true
-        /**
-            * We set this property to true for
-            * display submit button of query.
-            * -------------------------------
-            * Мы устанавливаем в это свойство значение true для
-            * отображения кнопки отправки запроса.
-        */
+
+        // set a listener that will be notified when the user submits a search query or
+        // when the query text changes
         searchItem.setOnQueryTextListener(this)
-        /**
-            * This fuction is used to set a listener
-            * that will be notified when the user submits a search query or
-            * when the query text changes.
-            * -------------------------------------------------------------
-            * Эта функция используется для установки прослушивателя, который
-            * будет уведомляться, когда пользователь отправляет поисковый запрос
-            * или когда текст запроса изменяется.
-        */
     }
 
-    private fun `assign_bottomNavigation_item`() {
+    private fun assignBottomNavigationItem() {
         bottomNavigation = (activity as MainActivity).bottomNavigation
         bottomNavigation
             .menu
@@ -161,7 +124,7 @@ class HomeFragment :
             .isChecked = true
     }
 
-    private fun `setting_up_click_addNote`() {
+    private fun setupAddNoteClickListener() {
         binding.addNote.setOnClickListener(this)
     }
 
@@ -188,22 +151,9 @@ class HomeFragment :
                         .differ
                         .submitList(notes)
                     /**
-                     * The submitList() passed a new List to the AdapterHelper.
-                     * Adapter updates will be computed in the background.
-                     *
-                     * If a List is already present,
-                     * a diff also will be computed asynchronously.
-                     *
-                     * When the difference is calculated, the list changes.
-                     * --------------------------------------------------------
-                     * Функция submitList() передает новый список AdapterHelper - у.
-                     * Обновления адаптера "будут вычисляться" в фоновом режиме.
-                     *
-                     * Если список уже существует,
-                     * разница также будет вычисляться асинхронно.
-                     *
-                     * Когда разница вычислена, список изменяется.
-                     */
+                     * The submitList() passes a new List to the AdapterHelper.
+                     * Adapter's updates will be computed asynchronously
+                     * */
                     updateUI(notes)
                 }
         }
@@ -219,13 +169,9 @@ class HomeFragment :
         }
     }
 
+    // TODO: Check connection with redundant? query submit button
     override fun onQueryTextSubmit(query: String?): Boolean {
-        /**
-         * This function сalled when the user submits the query.
-         * -----------------------------------------------------
-         * Эта функция вызывается, когда пользователь отправляет запрос.
-         */
-
+        // user query submit handling
         query?.let {
             searchNotes(query)
         }
@@ -233,12 +179,7 @@ class HomeFragment :
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        /**
-         * This function called when the query text is changed by the user.
-         * ----------------------------------------------------------------
-         * Эта функция вызывается, когда пользователь изменяет текст запроса.
-         */
-
+        // dynamic user query submit handling
         newText?.let {
             searchNotes(newText)
         }
@@ -246,6 +187,9 @@ class HomeFragment :
     }
 
     private fun searchNotes(query: String?) {
+        /* "%$query%" expression represents wildcard search for any appropriate sequence
+         * in both notes' titles and contents of the database
+         */
         val searchQuery = "%$query%"
 
         noteViewModel
@@ -255,27 +199,6 @@ class HomeFragment :
                     .differ
                     .submitList(list)
             }
-
-        /**
-            * The expression "%$query%" is being passed instead
-            * of the original query parameter to the searchNotes() function
-            * in order to perform a wildcard search in the database.
-            *
-            * The "%" character is a wildcard character that represents any sequence of
-            * characters.
-            * By enclosing the original query parameter within "%" characters,
-            * we are essentially telling the database to search for any notes that contain
-            * the query string as a substring, rather than an exact match.
-            * ----------------------------------------------------------------------------
-            * Выражение "%$query%" передается вместо query в функцию searchNotes()
-            * в целях выполнения поиска по шаблону в базе данных.
-            *
-            * Символ "%" - это символ шаблона, который представляет любую
-            * последовательность символов.
-            * Заключая query в символы "%", мы "говорим" базе данных
-            * искать любые заметки, которые содержат query как подстроку,
-            * а не точное совпадение.
-        */
     }
 
     override fun onClick(v: View?) {

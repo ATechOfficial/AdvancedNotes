@@ -75,7 +75,6 @@ class NoteFragment :
     private val inputFields = mutableListOf<EditText>()
     private val imageViews = mutableListOf<ImageView>()
 
-    // layoutAdditional
     private lateinit var layoutAdditional: LayoutAdditionalBinding
 
     private lateinit var textAdditional: TextView
@@ -127,7 +126,7 @@ class NoteFragment :
         )
 
         animation()
-        attach_an_action_to_back_button()
+        setBackButtonAction()
 
         return binding.root
     }
@@ -138,11 +137,11 @@ class NoteFragment :
         noteViewModel = (activity as MainActivity).noteViewModel
         mView = view
 
-        assign_bottomNavigation_item()
+        assignBottomNavigationItem()
 
-        init_several_views()
+        initSeveralViews()
 
-        action_definition_with_note(
+        setupNoteScreen(
             requireArguments().getString("message")!!
         )
     }
@@ -165,10 +164,10 @@ class NoteFragment :
         }
     }
 
-    private fun `attach_an_action_to_back_button`() {
+    private fun setBackButtonAction() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                switching_to_homeFragment()
+                switchToHomeFragment()
             }
         }
 
@@ -178,7 +177,7 @@ class NoteFragment :
         callback.isEnabled = true
     }
 
-    private fun `assign_bottomNavigation_item`() {
+    private fun assignBottomNavigationItem() {
         bottomNavigationView = (activity as MainActivity).bottomNavigation
         bottomNavigationView
             .menu
@@ -186,21 +185,22 @@ class NoteFragment :
             .isChecked = true
     }
 
-    private fun `init_several_views`() {
+    // tip: views shall be initialized in the onViewCreated directly
+    private fun initSeveralViews() {
         viewCircuitColorIndicator = binding.circuitColorIndicator
         layoutWebURL = binding.layoutWebURL
     }
 
-    private fun `action_definition_with_note`(message: String) {
+    private fun setupNoteScreen(message: String) {
         if (message == "note creation") {
-            action_at_note_creation()
+            setupNewNoteScreen()
         } else if (message == "change after save") {
-            action_at_note_change()
+            setupExistingNoteScreen()
         }
     }
 
-    private fun `action_at_note_creation`() {
-        initial_settings()
+    private fun setupNewNoteScreen() {
+        initNoteSettings()
 
         noteViewModel.dataCurrentNote.value = Note(id = 0)
 
@@ -210,50 +210,50 @@ class NoteFragment :
         )
     }
 
-    private fun `action_at_note_change`() {
+    private fun setupExistingNoteScreen() {
         noteViewModel.status = 1
-        initial_settings()
+        initNoteSettings()
 
         noteViewModel.dataCurrentNote.value = requireArguments().get("note") as Note
 
-        setting_up_noteData()
+        setupNoteData()
     }
 
-    private fun `initial_settings`() {
-        filling_in_the_lists_of_views()
+    private fun initNoteSettings() {
+        fillInViewsLists()
 
-        setting_up_clicks_views()
+        setupClicksViews()
 
         // layoutAdditional
-        initialization_layoutAdditional()
-        filling_in_the_lists_of_layoutMiscellaneous_views()
-        settng_up_clicks_of_layoutMiscellaneous_views()
+        initLayoutAdditional()
+        fillInLayoutsList()
+        setupClicksLayoutForMiscellaneousViews()
 
-        setting_up_dialogNameMatchWarning()
-        setting_up_dialogAddUrl()
+        setupDialogNameMatchWarning()
+        setupDialogOnUrlAddition()
 
         if (noteViewModel.status == 1) {
-            setting_up_dialogDeleteNote()
+            setupDialogOnNoteDeletion()
         }
     }
 
-    private fun `filling_in_the_lists_of_views`() {
-        filling_in_the_list_of_textFields()
-        filling_in_the_list_of_inputFields()
-        filling_in_the_list_of_imageViews()
+    private fun fillInViewsLists() {
+        fillInTextFieldsList()
+        fillInInputFieldsList()
+        fillInImageViewsList()
     }
 
-    private fun `filling_in_the_list_of_textFields`() {
+    private fun fillInTextFieldsList() {
         textFields.add(0, binding.textDateItem)
         textFields.add(1, binding.textWebURL)
     }
 
-    private fun `filling_in_the_list_of_inputFields`() {
+    private fun fillInInputFieldsList() {
         inputFields.add(0, binding.inputNoteTitle)
         inputFields.add(1, binding.inputNoteBody)
     }
 
-    private fun `filling_in_the_list_of_imageViews`() {
+    private fun fillInImageViewsList() {
         imageViews.add(0, binding.imageBack)
         imageViews.add(1, binding.imageSave)
         imageViews.add(2, binding.imageNote)
@@ -261,7 +261,7 @@ class NoteFragment :
         imageViews.add(4, binding.imageRemoveWebURL)
     }
 
-    private fun `setting_up_clicks_views`() {
+    private fun setupClicksViews() {
         viewCircuitColorIndicator.setOnClickListener(this)
         imageViews[0].setOnClickListener(this)
         imageViews[1].setOnClickListener(this)
@@ -269,21 +269,14 @@ class NoteFragment :
         imageViews[4].setOnClickListener(this)
     }
 
-    private fun `initialization_layoutAdditional`() {
-        init_layoutAdditional()
-        init_textAdditional()
-        init_bottom_sheet_behavior()
-    }
-
-    private fun `init_layoutAdditional`() {
+    private fun initLayoutAdditional() {
         layoutAdditional = binding.layoutAdditional
-    }
-
-    private fun `init_textAdditional`() {
         textAdditional = layoutAdditional.textAdditional
+
+        initBottomMenuBehaviour()
     }
 
-    private fun `init_bottom_sheet_behavior`() {
+    private fun initBottomMenuBehaviour() {
         /**
             * The BottomSheetBehavior class is responsible for the behavior
             * bottom sheet on the screen.
@@ -313,11 +306,7 @@ class NoteFragment :
         */
     }
 
-    private fun `filling_in_the_lists_of_layoutMiscellaneous_views`() {
-        filling_in_the_list_of_layouts()
-    }
-
-    private fun `filling_in_the_list_of_layouts`() {
+    private fun fillInLayoutsList() {
         layouts.add(0, layoutAdditional.layoutChangeColor)
         layouts.add(1, layoutAdditional.layoutAddImage)
         layouts.add(2, layoutAdditional.layoutAddUrl)
@@ -327,12 +316,12 @@ class NoteFragment :
         }
     }
 
-    private fun `settng_up_clicks_of_layoutMiscellaneous_views`() {
-        setting_up_click_textMiscellaneous()
-        setting_up_clicks_layouts()
+    private fun setupClicksLayoutForMiscellaneousViews() {
+        setupClicksTextMiscellaneous()
+        setupClicksLayout()
     }
 
-    private fun `setting_up_click_textMiscellaneous`() {
+    private fun setupClicksTextMiscellaneous() {
         /**
             * expanded - расширенный
             * collapsed - свернутый
@@ -355,7 +344,7 @@ class NoteFragment :
         }
     }
 
-    private fun `setting_up_clicks_layouts`() {
+    private fun setupClicksLayout() {
         layouts[0].setOnClickListener {
             bottomSheetBehavior.state =
                 BottomSheetBehavior.STATE_COLLAPSED
@@ -363,7 +352,7 @@ class NoteFragment :
         }
 
         layouts[1].setOnClickListener {
-            setImage()
+            setupNoteImage()
         }
 
         layouts[2].setOnClickListener {
@@ -381,7 +370,7 @@ class NoteFragment :
         }
     }
 
-    private fun `setting_up_dialogNameMatchWarning`() {
+    private fun setupDialogNameMatchWarning() {
         val builder = AlertDialog.Builder(context)
 
         val view = LayoutNameWarningBinding.inflate(
@@ -509,14 +498,14 @@ class NoteFragment :
 
     private fun handleColorSelected(color: Int) {
         noteViewModel.dataCurrentNote.value!!.colorOfCircuit = color
-        setting_the_selected_color(color)
+        setupDialogOnColorSelection(color)
     }
 
-    private fun `setting_the_selected_color`(color: Int) {
+    private fun setupDialogOnColorSelection(color: Int) {
         viewCircuitColorIndicator.setCardBackgroundColor(color)
     }
 
-    private fun `setting_up_dialogAddUrl`() {
+    private fun setupDialogOnUrlAddition() {
         val builder = AlertDialog.Builder(context)
         val view = LayoutAddUrlBinding.inflate(LayoutInflater.from(context))
 
@@ -574,7 +563,7 @@ class NoteFragment :
         }
     }
 
-    private fun `setting_up_dialogDeleteNote`() {
+    private fun setupDialogOnNoteDeletion() {
         val builder = AlertDialog.Builder(context)
         val view = LayoutDeleteNoteBinding.inflate(LayoutInflater.from(context))
 
@@ -585,7 +574,7 @@ class NoteFragment :
             noteViewModel.deleteNote(
                 noteViewModel.dataCurrentNote.value!!
             )
-            switching_to_homeFragment()
+            switchToHomeFragment()
             dialogDeleteNote.dismiss()
         }
 
@@ -594,8 +583,8 @@ class NoteFragment :
         }
     }
 
-    private fun setImage() {
-        if (all_permissions_granted()) {
+    private fun setupNoteImage() {
+        if (checkPermissionsGranted()) {
             /**
                 * permissions предоставлены.
                 * --------------------------
@@ -617,7 +606,7 @@ class NoteFragment :
         }
     }
 
-    private fun `all_permissions_granted`(): Boolean {
+    private fun checkPermissionsGranted(): Boolean {
         return activity?.let {
             /**
                 * ContextCompat - a helper for accessing to functions in context.
@@ -711,22 +700,22 @@ class NoteFragment :
 
         checkNoteTitle(noteTitle) {
             if (!it) {
-                callback_for_save_note(noteTitle)
-                switching_to_homeFragment()
+                callbackOnNoteSave(noteTitle)
+                switchToHomeFragment()
             }
         }
     }
 
-    // TODO give an another name to this function
-    private fun `callback_for_save_note`(noteTitle: String) {
+    private fun callbackOnNoteSave(noteTitle: String) {
         noteViewModel.dataCurrentNote.value!!.noteTitle = noteTitle
 
-        installation_dateTime()
+        setupNoteDatetime()
 
         noteViewModel.addNote(noteViewModel.dataCurrentNote.value!!)
     }
 
-    private fun `installation_dateTime`() {
+    // TODO: add current locale/lang dependent datetime display
+    private fun setupNoteDatetime() {
         val dateTime = SimpleDateFormat(
             "EEEE, dd MMMM yyyy HH:mm",
             Locale.getDefault()
@@ -734,7 +723,7 @@ class NoteFragment :
             .format(Date())
             .toString()
 
-        /**
+        /**+
             * This code sets the text for the textDateTime object,
             * displaying the current date and time in the specified format.
             *
@@ -799,7 +788,7 @@ class NoteFragment :
         noteViewModel.dataCurrentNote.value!!.dateTime = dateTime
     }
 
-    private fun `setting_up_noteData`() {
+    private fun setupNoteData() {
         noteViewModel.dataCurrentNote.value.let { note ->
             inputFields[0].setText(note!!.noteTitle)
 
@@ -807,7 +796,7 @@ class NoteFragment :
 
             inputFields[1].setText(note.noteBody)
 
-            setting_the_selected_color(note.colorOfCircuit!!)
+            setupDialogOnColorSelection(note.colorOfCircuit!!)
 
             note.imagePath?.let {
                 Glide.with(requireContext())
@@ -825,61 +814,61 @@ class NoteFragment :
         }
     }
 
-    private fun updateNote() {
+    private fun updateNoteAndSwitchHome() {
         val noteTitle = inputFields[0].text.toString()
         val noteBody = inputFields[1].text.toString()
 
         noteViewModel.dataCurrentNote.value!!.noteBody = noteBody
 
         if (noteTitle == initialNoteTitle) {
-            someOperation(noteTitle)
+            saveNoteAndSwitchHome(noteTitle)
         } else {
             checkNoteTitle(noteTitle) {
                 if (!it) {
-                    someOperation(noteTitle)
+                    saveNoteAndSwitchHome(noteTitle)
                 }
             }
         }
     }
 
-    private fun someOperation(noteTitle: String) {
+    private fun saveNoteAndSwitchHome(noteTitle: String) {
         noteViewModel.dataCurrentNote.value!!.noteTitle = noteTitle
         noteViewModel.updateNote(noteViewModel.dataCurrentNote.value!!)
-        switching_to_homeFragment()
+        switchToHomeFragment()
     }
 
-    private fun `switching_to_homeFragment`() {
-        clearing_of_data()
+    private fun switchToHomeFragment() {
+        clearNoteAttachmentsData()
         mView.findNavController().navigate(
             R.id.action_noteFragment_to_homeFragment
         )
     }
 
-    private fun `clearing_of_data`() {
+    private fun clearNoteAttachmentsData() {
         if (textFields[0].visibility == View.GONE)
-            clearing_a_data_time()
+            clearTimeData()
 
         if (imageViews[2].visibility == View.VISIBLE)
-            deleting_a_data_of_image()
+            clearImageData()
 
         if (layoutWebURL.visibility == View.VISIBLE)
-            deleting_a_data_of_webURL()
+            clearWebURLData()
 
         noteViewModel.dataCurrentNote.value = null
     }
 
-    private fun `clearing_a_data_time`() {
+    private fun clearTimeData() {
         textFields[0].text = ""
         textFields[0].visibility = View.GONE
     }
 
-    private fun `deleting_a_data_of_image`() {
+    private fun clearImageData() {
         imageViews[2].setImageBitmap(null)
         imageViews[2].visibility = View.GONE
         imageViews[3].visibility = View.GONE
     }
 
-    private fun `deleting_a_data_of_webURL`() {
+    private fun clearWebURLData() {
         textFields[1].text = null
         layoutWebURL.visibility = View.GONE
     }
@@ -888,13 +877,13 @@ class NoteFragment :
         when (view) {
             viewCircuitColorIndicator -> showColorPickerDialog()
 
-            imageViews[0] -> switching_to_homeFragment()
+            imageViews[0] -> switchToHomeFragment()
 
-            imageViews[1] -> if (noteViewModel.status == 0) saveNote() else updateNote()
+            imageViews[1] -> if (noteViewModel.status == 0) saveNote() else updateNoteAndSwitchHome()
 
-            imageViews[3] -> deleting_a_data_of_image()
+            imageViews[3] -> clearImageData()
 
-            imageViews[4] -> deleting_a_data_of_webURL()
+            imageViews[4] -> clearWebURLData()
         }
     }
 }
