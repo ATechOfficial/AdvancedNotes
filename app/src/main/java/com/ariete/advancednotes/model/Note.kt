@@ -31,8 +31,8 @@ data class Note(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
 
-    @ColumnInfo(name = "dateTime")
-    var dateTime: String? = null,
+    @ColumnInfo(name = "timestamp")
+    var timestamp: Long = System.currentTimeMillis(),
 
     @ColumnInfo(name = "noteTitle")
     var noteTitle: String = "",

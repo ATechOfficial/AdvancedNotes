@@ -13,6 +13,9 @@ import com.ariete.advancednotes.R
 import com.ariete.advancednotes.databinding.ItemNoteContainerBinding
 import com.bumptech.glide.Glide
 import com.ariete.advancednotes.model.Note
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class NoteAdapter
 constructor(
@@ -96,7 +99,7 @@ constructor(
         val currentNote = differ.currentList[position]
 
         holder.itemBinding.textTitle.text = currentNote.noteTitle
-        holder.itemBinding.dateTime.text = currentNote.dateTime
+        holder.itemBinding.dateTime.text = formatTimestamp(currentNote.timestamp)
 
         currentNote.imagePath?.let {
             Glide.with(context)
@@ -106,7 +109,7 @@ constructor(
             holder.itemBinding.imageNote.visibility = View.VISIBLE
         } ?: run {
             if (currentNote.noteBody.isNotEmpty()) {
-                check_text_note_length(currentNote.noteBody).let {
+                checkTextNoteLength(currentNote.noteBody).let {
                     holder.itemBinding.noteText.text = it
 
                     holder.itemBinding.noteText.visibility = View.VISIBLE
@@ -131,7 +134,17 @@ constructor(
         }
     }
 
-    private fun `check_text_note_length`(text: String): String {
+    private fun formatTimestamp(timestamp: Long): String {
+        val date = Date(timestamp)
+        val dateFormat = SimpleDateFormat(
+            "EEEE, dd MMMM yyyy HH:mm",
+            Locale.getDefault()
+        )
+
+        return dateFormat.format(date)
+    }
+
+    private fun checkTextNoteLength(text: String): String {
         return if (text.length <= textNoteMaxLength) {
             text
         } else {

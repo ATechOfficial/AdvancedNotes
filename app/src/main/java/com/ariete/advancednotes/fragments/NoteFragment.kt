@@ -714,78 +714,18 @@ class NoteFragment :
         noteViewModel.addNote(noteViewModel.dataCurrentNote.value!!)
     }
 
-    // TODO: add current locale/lang dependent datetime display
     private fun setupNoteDatetime() {
-        val dateTime = SimpleDateFormat(
+        noteViewModel.dataCurrentNote.value!!.timestamp = System.currentTimeMillis()
+    }
+
+    private fun getFormattedDatetime(timestamp: Long): String {
+        val date = Date(timestamp)
+        val dateFormat = SimpleDateFormat(
             "EEEE, dd MMMM yyyy HH:mm",
             Locale.getDefault()
         )
-            .format(Date())
-            .toString()
 
-        /**+
-            * This code sets the text for the textDateTime object,
-            * displaying the current date and time in the specified format.
-            *
-            * the string "EEEE" indicates
-            * that you need to display the day of the week in full.
-            * Example, Tuesday.
-            *
-            * the string "dd" indicates
-            * that you need to display the day of the month.
-            * Example, 20.
-            *
-            * the string "MMMM" indicates
-            * that you need to display the name of the month in full.
-            * Example, june.
-            *
-            * the string "yyyy" indicates
-            * that you need to display the year in four digit format.
-            * Example, 2023.
-            *
-            * the string "HH" indicates
-            * that you need to display hours in 24 hour format.
-            * Example, 22.
-            *
-            * the string "mm" indicates
-            * that you need to display mminutes.
-            * Example, 30.
-            *
-            * The code "Locale.getDefault()" is used to set
-            * regional settings.
-            * ------------------------------------------------------
-            * Этот код устанавливает текст для объекта textDateTime,
-            * отображая текущую дату и время в указанном формате.
-            *
-            * "EEEE" указывает,
-            * что нужно отображать день недели полностью.
-            * Например, вторник.
-            *
-            * "dd" указывает,
-            * что нужно отображать день месяца.
-            * например, 20.
-            *
-            * "MMMM" указывает,
-            * что нужно отображать название месяца полностью.
-            * например, июня.
-            *
-            * "yyyy" указывает,
-            * что нужно отображать год в четырехзначном формате.
-            * например, 2023.
-            *
-            * "HH" указывает,
-            * что нужно отображать часы в 24 - часовом формате.
-            * например, 22.
-            *
-            * "mm" указывает,
-            * что нужно отображать минуты.
-            * например, 30.
-            *
-            * Locale.getDefault() используется для задания
-            * региональных настроек.
-        */
-
-        noteViewModel.dataCurrentNote.value!!.dateTime = dateTime
+        return dateFormat.format(date)
     }
 
     private fun setupNoteData() {
@@ -795,6 +735,8 @@ class NoteFragment :
             initialNoteTitle = note.noteTitle
 
             inputFields[1].setText(note.noteBody)
+
+            textFields[0].text = getFormattedDatetime(note.timestamp)
 
             setupDialogOnColorSelection(note.colorOfCircuit!!)
 

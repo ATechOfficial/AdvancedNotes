@@ -8,7 +8,7 @@ import com.ariete.advancednotes.model.Note
 
 @Database(
     entities = [Note::class],
-    version = 1,
+    version = 2,
     exportSchema = false
     /**
         * exportSchema used for export schema of database to specified folder
@@ -121,6 +121,8 @@ abstract class NoteDatabase : RoomDatabase() {
             context.applicationContext,
             NoteDatabase::class.java,
             "note_db_1"
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
     }
 }
