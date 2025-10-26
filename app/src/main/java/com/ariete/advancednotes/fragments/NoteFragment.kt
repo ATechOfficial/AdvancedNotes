@@ -583,59 +583,82 @@ class NoteFragment :
         }
     }
 
-    private fun setupNoteImage() {
-        if (checkPermissionsGranted()) {
-            /**
-                * permissions предоставлены.
-                * --------------------------
-                * permisions granted.
-            */
-            selectImage()
-        } else {
-            /**
-                * ActivityCompat - помощник для доступа к функциям Activity.
-                * ----------------------------------------------------------
-                * ActivityCompat - a helper for accessing to Activity's functions.
-            */
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
-                // список запрашиваемых permissions (the list of requested permissions)
-                REQUEST_CODE_STORAGE_PERMISSION
-            )
+    private fun setupNoteImage() = if (checkPermissionsGranted()) {
+        // when all the required permissions have been granted
+        selectImage()
+    } else {
+        // for version differences reference see checkPermissionsGranted()
+        val permissionToRequest = when {
+            // Android 13 (API 33) and higher
+            android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU -> {
+                android.Manifest.permission.READ_MEDIA_IMAGES
+            }
+
+            // Android 12 (API 32) and lower
+            else -> {
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            }
         }
+
+        // ActivityCompat - a helper for accessing to Activity's functions.
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            // the required permissions
+            arrayOf(permissionToRequest),
+            // the list of requested permissions
+            REQUEST_CODE_STORAGE_PERMISSION
+        )
     }
 
     private fun checkPermissionsGranted(): Boolean {
-        return activity?.let {
-            /**
-                * ContextCompat - a helper for accessing to functions in context.
-                * --------------------------------------------------------------
-                * ContextCompat - помощник для доступа к функциям в контексте (context).
-            */
+        val context = requireContext()
 
-            /**
-                * checkSelfPermission() - the function(), which defines
-                * were you granted specific permission.
-                * -----------------------------------------------------
-                * checkSelfPermission() - функция, которая определяет,
-                * было ли вам предоставлено конкретное разрешение.
-            */
+        // ContextCompat - a helper for accessing to functions in context.
 
-            /**
-                * PacketManager - a class for extraction different information
-                * that apply to the packages of appps,
-                * which at this moment setting on devce
-                * ----------------------------------------------------------------
-                * PacketManager - класс для извлечения различного рода информации,
-                * относящейся к пакетам приложений,
-                * которые в данный момент установлены на устройстве.
-            */
-            ContextCompat.checkSelfPermission(
-                it.applicationContext,
-                android.Manifest.permission.READ_EXTERNAL_STORAGE
-            )
-        } == PackageManager.PERMISSION_GRANTED
+        /**
+         * checkSelfPermission() - the function(), which defines
+         * whether you've been granted a specific permission.
+         */
+
+        /**
+         * PacketManager - a class for extracting different information
+         * that refers to the packages of apps,
+         * which are set on the device at the moment
+         */
+
+        return when {
+            // Android 14 (API 34) and higher
+            android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.UPSIDE_DOWN_CAKE -> {
+                ContextCompat.checkSelfPermission(
+                    context, android.Manifest.permission.READ_MEDIA_IMAGES
+                ) == PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(
+                    context, android.Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED
+                ) == PackageManager.PERMISSION_GRANTED
+            }
+
+            // Android 13 (API 33) and higher
+            android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU -> {
+                /*
+                    Android 13 (API 33) and higher require granulated permissions instead of
+                    a simple request for the whole storage media types data access
+                 */
+                return ContextCompat.checkSelfPermission(
+                    context, android.Manifest.permission.READ_MEDIA_IMAGES,
+                ) == PackageManager.PERMISSION_GRANTED
+            }
+
+            // Android 12 (API 32) and lower
+            else -> {
+                return activity?.let {
+                    ContextCompat.checkSelfPermission(
+                        it.applicationContext,
+                        android.Manifest.permission.READ_EXTERNAL_STORAGE
+                    )
+                } == PackageManager.PERMISSION_GRANTED
+            }
+        }
+
     }
 
 
